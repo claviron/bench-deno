@@ -7,7 +7,7 @@ use claviron::{FleetName, Server, ServerName, ServerOptions};
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 #[derive(Parser)]
-#[command(about = "Standalone Claviron host for the shared Deno workload")]
+#[command(about = "Claviron host for the shared Deno workload")]
 struct Args {
     #[arg(long, default_value = "config")]
     config: PathBuf,
@@ -17,6 +17,9 @@ struct Args {
     fleet: FleetName,
     #[arg(long)]
     production: bool,
+    /// Claviron worker processes; 0 runs standalone.
+    #[arg(long, default_value_t = 0)]
+    workers: u8,
     #[arg(long)]
     check_config: bool,
 }
@@ -27,7 +30,8 @@ async fn main() -> claviron::Result<()> {
     let mut options = ServerOptions::new()
         .config_dir(args.config)
         .name(args.name)
-        .fleet_name(args.fleet);
+        .fleet_name(args.fleet)
+        .workers(args.workers);
     if args.production {
         options = options.production();
     }

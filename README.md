@@ -2,7 +2,7 @@
 
 Compare Claviron's embedded Deno runtime with Deno's built-in HTTP server.
 Both execute the same [Fetch handler](js/app.ts). The Claviron host contains
-only the JavaScript runtime and runs as one standalone process.
+only the JavaScript runtime and defaults to one standalone process.
 
 ## Build
 
@@ -33,9 +33,14 @@ The embedded runtime uses Deno's Fetch Web APIs, matching the existing
 application integration.
 
 ```sh
-BENCH_LISTEN=127.0.0.1:8080 RUST_LOG=warn \
+BENCH_LISTEN=127.0.0.1:8080 RUST_LOG=info \
   ./target/release/bench-deno --production --fleet bdemo
 ```
+
+Add `--workers N` to run N supervised Claviron worker processes; `--workers 0`
+is the standalone default. The `instances` value in `config/js.yaml` applies
+to each serving process. For example, four workers with two instances each
+run eight Deno isolates in total; the supervisor master hosts no isolates.
 
 For native Deno, run the same module with 16 parallel workers:
 
