@@ -1,0 +1,7 @@
+default:
+  root: public
+  access_log: "off"
+  transport: { non_ssl: serve, protocols: [h1] }
+  routes:
+    /:
+      js: { application: bench-deno }

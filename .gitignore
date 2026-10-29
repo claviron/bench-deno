@@ -1,0 +1,10 @@
+/target/
+/.cache/
+/.runs/
+/.env
+/.env.*
+/AGENTS.local.md
+*.local.sh
+__pycache__/
+*.pyc
+.DS_Store

@@ -1,0 +1,11 @@
+engine:
+  command_queue_capacity: 64
+  graceful_timeout: null
+applications:
+  bench-deno:
+    module: js/app.ts
+    instances: 16
+    dispatch: round_robin
+    max_waiting: 2048
+    execution_timeout: null
+    graceful_timeout: null
