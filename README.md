@@ -45,6 +45,8 @@ to each serving process. For example, four workers with two instances each
 run eight Deno isolates in total; the supervisor master hosts no isolates.
 `--workers 1` starts a supervisor and one serving worker; use `--workers 0`
 for a single-process measurement.
+Supervised mode reads the supplied `config/supervisor.yaml`; its default
+policy does not rotate workers.
 
 For native Deno, run the same module with 16 parallel workers:
 
