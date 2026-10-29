@@ -12,12 +12,14 @@ Use a stable Rust toolchain, Python 3 and the platform's V8 build prerequisites:
 python3 scripts/build.py --native
 ```
 
-To measure unreleased source, select both checkouts explicitly:
+The default build uses published registry packages. Source overrides are
+optional. To build the latest `main` code, first update your Claviron and Deno
+checkouts, then select both explicitly:
 
 ```sh
 python3 scripts/build.py --native \
-  --claviron-source /path/to/claviron-source \
-  --deno-source /path/to/deno-source
+  --claviron-source ../claviron \
+  --deno-source ../deno
 ```
 
 The source overrides and build record stay under ignored `.cache/`.
@@ -34,13 +36,15 @@ application integration.
 
 ```sh
 BENCH_LISTEN=127.0.0.1:8080 RUST_LOG=info \
-  ./target/release/bench-deno --production --fleet bdemo
+  ./target/release/bench-deno --production --fleet bdemo --workers 0
 ```
 
 Add `--workers N` to run N supervised Claviron worker processes; `--workers 0`
 is the standalone default. The `instances` value in `config/js.yaml` applies
 to each serving process. For example, four workers with two instances each
 run eight Deno isolates in total; the supervisor master hosts no isolates.
+`--workers 1` starts a supervisor and one serving worker; use `--workers 0`
+for a single-process measurement.
 
 For native Deno, run the same module with 16 parallel workers:
 
